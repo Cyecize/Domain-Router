@@ -28,7 +28,7 @@ public class AppStartUp {
         final ExecutorService pool = Executors.newFixedThreadPool(10);
 
         new Thread(() -> {
-            try (final ServerSocket server = new ServerSocket(8080)) {
+            try (final ServerSocket server = new ServerSocket(80)) {
                 log.info("Start listening for connections!");
 
                 while (true) {
