@@ -6,6 +6,8 @@ import com.cyecize.domainrouter.error.CannotParseRequestException;
 import com.cyecize.domainrouter.util.HttpProtocolUtils;
 import com.cyecize.ioc.annotations.PostConstruct;
 import com.cyecize.ioc.annotations.Service;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,7 +78,7 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
             }
 
             final DestinationDto server = this.domainsMap.get(host);
-            final Socket serverConnection = new Socket(server.host(), server.port());
+            final Socket serverConnection = new Socket(server.getHost(), server.getPort());
 
             this.asyncSocketConnection(() -> HttpProtocolUtils.transferHttpRequest(
                     clientIn, metadata, contentLength, serverConnection.getOutputStream()
@@ -128,6 +130,10 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
         void run() throws IOException;
     }
 
-    record DestinationDto(String host, int port) {
+    @Data
+    @AllArgsConstructor
+    static class DestinationDto {
+        private String host;
+        private int port;
     }
 }
