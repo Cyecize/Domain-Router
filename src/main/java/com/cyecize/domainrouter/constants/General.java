@@ -15,4 +15,6 @@ public class General {
     public static final String SETTINGS_FILE_NAME = "options.json";
 
     public static final String ENV_VAR_OPTIONS_NAME = "options";
+
+    public static final int READ_BUFFER_SIZE = 2048;
 }
