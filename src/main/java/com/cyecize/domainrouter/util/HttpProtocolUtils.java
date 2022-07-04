@@ -2,6 +2,7 @@ package com.cyecize.domainrouter.util;
 
 import com.cyecize.domainrouter.constants.General;
 import com.cyecize.domainrouter.error.CannotParseRequestException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class HttpProtocolUtils {
     public static List<String> parseMetadataLines(InputStream inputStream, boolean allowNewLineWithoutReturn)
             throws CannotParseRequestException {
@@ -130,7 +132,14 @@ public class HttpProtocolUtils {
      * Read the metadata first to try and get the content length of the body.
      */
     public static void transferHttpResponse(InputStream inputStream, OutputStream outputStream) throws IOException {
-        final List<String> metadataLines = parseMetadataLines(inputStream, false);
+        final List<String> metadataLines;
+        try {
+            metadataLines = parseMetadataLines(inputStream, true);
+        } catch (CannotParseRequestException ex) {
+            log.error("Could not parse server's response.", ex);
+            return;
+        }
+
         final Map<String, String> headers = getHeaders(metadataLines);
         int contentLength = getContentLength(inputStream, headers);
 
