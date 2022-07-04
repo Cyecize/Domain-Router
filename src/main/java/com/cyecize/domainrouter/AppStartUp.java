@@ -1,6 +1,7 @@
 package com.cyecize.domainrouter;
 
 import com.cyecize.domainrouter.api.connection.ConnectionHandler;
+import com.cyecize.domainrouter.constants.General;
 import com.cyecize.ioc.MagicInjector;
 import com.cyecize.ioc.annotations.Service;
 import com.cyecize.ioc.annotations.StartUp;
@@ -26,9 +27,16 @@ public class AppStartUp {
     @StartUp
     public void startUp() {
         final ExecutorService pool = Executors.newFixedThreadPool(10);
+        final int port;
+        if (System.getenv("port") != null) {
+            port = Integer.parseInt(System.getenv("port").trim());
+        } else {
+            port = General.DEFAULT_PORT;
+        }
 
         new Thread(() -> {
-            try (final ServerSocket server = new ServerSocket(80)) {
+            log.info("Try port {}.", port);
+            try (final ServerSocket server = new ServerSocket(port)) {
                 log.info("Start listening for connections!");
 
                 while (true) {

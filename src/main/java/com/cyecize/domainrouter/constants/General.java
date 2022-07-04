@@ -16,5 +16,7 @@ public class General {
 
     public static final String ENV_VAR_OPTIONS_NAME = "options";
 
-    public static final int READ_BUFFER_SIZE = 2048;
+    public static final int READ_BUFFER_SIZE = 8196;
+
+    public static final int DEFAULT_PORT = 80;
 }
