@@ -120,11 +120,12 @@ public class HttpProtocolUtils {
 
         final byte[] bytes = new byte[General.READ_BUFFER_SIZE];
         while (contentLength > 0) {
-            final int chunkRead = Math.min(General.READ_BUFFER_SIZE, contentLength);
-            inputStream.read(bytes, 0, chunkRead);
-            contentLength -= chunkRead;
+            final int read = inputStream.read(bytes, 0, Math.min(General.READ_BUFFER_SIZE, contentLength));
+            contentLength -= read;
 
-            outputStream.write(bytes, 0, chunkRead);
+            if (read > 0) {
+                outputStream.write(bytes, 0, read);
+            }
         }
     }
 
@@ -151,11 +152,12 @@ public class HttpProtocolUtils {
 
         final byte[] bytes = new byte[General.READ_BUFFER_SIZE];
         while (contentLength > 0) {
-            final int chunkRead = Math.min(General.READ_BUFFER_SIZE, contentLength);
-            inputStream.read(bytes, 0, chunkRead);
-            contentLength -= chunkRead;
+            final int read = inputStream.read(bytes, 0, Math.min(General.READ_BUFFER_SIZE, contentLength));
+            contentLength -= read;
 
-            outputStream.write(bytes, 0, chunkRead);
+            if (read > 0) {
+                outputStream.write(bytes, 0, read);
+            }
         }
     }
 }
