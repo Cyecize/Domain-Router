@@ -9,7 +9,7 @@ public class General {
             .replaceAll("\\.", "/");
 
     public static final String WORKING_DIRECTORY = URLDecoder.decode(General.class.getResource("").toString()
-            .replace("file:/", "")
+            .replace("file:/", "/")
             .replace(START_UP_PACKAGE_PATH, ""), StandardCharsets.UTF_8);
 
     public static final String SETTINGS_FILE_NAME = "options.json";
